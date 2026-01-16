@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhishGuard | URL Threat Scanner</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #0f2027, #000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e0e0e0;
+            transition: background 0.6s ease;
+        }
+
+        body.safe {
+            background: radial-gradient(circle at top, #0f5132, #000);
+        }
+
+        body.suspicious {
+            background: radial-gradient(circle at top, #6a040f, #000);
+        }
+
+        .scanner-box {
+            width: 420px;
+            padding: 30px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 40px rgba(0, 255, 150, 0.15);
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        /* 🚨 Threat pulse animation */
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); }
+            100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
+        }
+
+        .scanner-box.threat {
+            animation: pulseRed 1.5s infinite;
+            border: 1px solid rgba(255, 80, 80, 0.6);
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #00ffcc, #00b4d8);
+            color: #000;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .lockdown {
+            background: linear-gradient(90deg, #ff0000, #7a0000);
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .safe-badge {
+            background: rgba(25, 135, 84, 0.3);
+            color: #7CFFB2;
+        }
+
+        .danger-badge {
+            background: rgba(220, 53, 69, 0.3);
+            color: #ff6b6b;
+        }
+
+        .risk-bar {
+            height: 10px;
+            background: #222;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .risk-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .safe-fill {
+            background: linear-gradient(90deg, #00ff99, #00cc66);
+        }
+
+        .danger-fill {
+            background: linear-gradient(90deg, #ff4d4d, #c9184a);
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 11px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body class="{{ status if status else '' }}">
+
+<div class="scanner-box {% if status == 'suspicious' %}threat{% endif %}">
+    <h1>🛡️ PhishGuard</h1>
+    <div class="subtitle">Heuristic-Based URL Threat Scanner</div>
+
+    <form method="POST">
+        <input type="text" name="url" placeholder="Paste URL to scan..." required>
+        <button type="submit">SCAN URL</button>
+    </form>
+
+    {% if result %}
+        <div class="result-box">
+
+            {% if status == "suspicious" %}
+                <div class="lockdown">🚨 LOCKDOWN MODE ACTIVATED</div>
+                <div class="badge danger-badge">THREAT DETECTED</div>
+            {% else %}
+                <div class="badge safe-badge">NO THREAT FOUND</div>
+            {% endif %}
+
+            <p><strong>Risk Score:</strong> {{ score }}/8</p>
+
+            <div class="risk-bar">
+                <div class="risk-fill {% if status == 'suspicious' %}danger-fill{% else %}safe-fill{% endif %}"
+                     style="width: {{ risk_percent }}%;">
+                </div>
+            </div>
+
+            <p>{{ result }}</p>
+        </div>
+    {% endif %}
+
+    <div class="footer">
+        Educational tool • Heuristic analysis • Not a replacement for enterprise security solutions
+    </div>
+</div>
+
+</body>
+</html>
