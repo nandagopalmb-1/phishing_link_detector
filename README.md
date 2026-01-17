@@ -1,45 +1,109 @@
-🛡️ PhishGuard | URL Threat Scanner
+# 🛡️ PhishGuard – URL Phishing Detection Tool
 
-PhishGuard is a heuristic-based URL phishing detection tool built with Python and Flask. It analyzes URLs for suspicious patterns and visually communicates the threat level with an interactive and dynamic interface.
+PhishGuard is a **Flask-based web application** designed to detect potentially malicious or phishing URLs using **heuristic-based analysis**.  
+The tool evaluates URLs against common phishing indicators and provides a **risk score and verdict** through an interactive web interface.
 
-🔹 Project Overview
+🔗 **Live Deployment:**  
+https://phishinglinkdetector-production.up.railway.app
 
-PhishGuard scans a URL for common phishing indicators and calculates a risk score to classify the URL as either Safe or Suspicious. The frontend responds dynamically:
+---
 
-✅ Safe URLs → Green-themed interface
+## 📌 Project Objective
 
-⚠️ Suspicious URLs → Red glow, pulsing threat box, and a “LOCKDOWN MODE” banner
+The primary goal of this project is to:
+- Understand how phishing URLs are structured
+- Detect common phishing patterns programmatically
+- Demonstrate how security logic can be integrated into a web application
+- Gain hands-on experience with Flask and cloud deployment
 
-The project simulates real-world phishing detection logic in an educational, interactive way, making it resume-ready and interview-friendly.
+---
 
-🔹 Key Features
+## ⚙️ How the Tool Works
 
-Heuristic Analysis: Detects multiple phishing patterns like:
+The application analyzes a given URL using multiple **security heuristics**, assigns a **risk score**, and classifies the URL as either **Safe** or **Suspicious**.
 
-IP address in the URL
+### 🔍 Phishing Indicators Used
 
-Excessively long URLs (>75 characters)
+- **IP Address in URL**  
+  Phishing URLs often use raw IP addresses instead of domain names.
 
-Presence of @ symbol
+- **Excessive URL Length**  
+  Very long URLs are commonly used to hide malicious intent.
 
-Hyphens in the domain
+- **Presence of `@` Symbol**  
+  Used to mislead users by masking the actual destination.
 
-Multiple subdomains
+- **Hyphen in Domain Name**  
+  Attackers imitate trusted brands using hyphenated domains.
 
-Missing HTTPS
+- **Multiple Subdomains**  
+  Fake subdomains are used to impersonate legitimate websites.
 
-Risk Scoring: Each triggered pattern adds to a cumulative score.
+- **Lack of HTTPS**  
+  Absence of HTTPS may indicate insecure or malicious sources.
 
-Dynamic UI Feedback: Background color, badges, and animations indicate the level of threat.
+Each detected indicator increases the **risk score**.
 
-Educational Tool: Helps users understand phishing detection heuristics.
+---
 
-🔹 Technologies Used
+## 🧠 Decision Logic
 
-Python 3.x
+- The tool uses a **threshold-based scoring system**
+- URLs exceeding the defined threshold are flagged as **Suspicious**
+- Final verdict is determined **only in the backend**, ensuring consistency
 
-Flask (backend & templating)
+---
 
-HTML5 & CSS3 (frontend with animations)
+## 🎨 User Interface Features
 
-Jinja2 (template rendering)
+- Dynamic background color changes based on verdict:
+  - 🟢 Green for Safe URLs
+  - 🔴 Red for Suspicious URLs
+- Risk score visualization bar
+- Clear verdict labels and threat indicators
+- Minimal, security-themed UI design
+
+---
+
+## ☁️ Deployment
+
+The application is deployed on **Railway Cloud Platform** using:
+- Flask as the backend framework
+- Gunicorn as the WSGI server
+- GitHub-based continuous deployment
+
+This ensures public accessibility and production-grade hosting.
+
+---
+
+## 🚀 Technologies Used
+
+- **Python**
+- **Flask**
+- **HTML & CSS**
+- **Regular Expressions (`re`)**
+- **Railway Cloud**
+- **Gunicorn**
+
+---
+
+## ⚠️ Disclaimer
+
+This tool is based on **heuristic analysis** and is intended for **educational purposes only**.  
+It is **not a replacement for enterprise-grade security solutions** or real-time threat intelligence systems.
+
+---
+
+## 👤 Author
+
+Developed by **Nandagopal M B**  
+Cybersecurity & Python Enthusiast
+
+---
+
+## ⭐ Future Enhancements
+
+- Rule-wise threat breakdown
+- Machine learning-based detection
+- URL reputation APIs
+- Logging and analytics dashboard
