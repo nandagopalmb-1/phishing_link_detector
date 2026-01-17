@@ -67,7 +67,7 @@ def index():
         url = request.form.get("url")
         score, result = analyze_url(url)
 
-        if score >= 4:
+        if score >= 2:
             status = "suspicious"
         else:
             status = "safe"
